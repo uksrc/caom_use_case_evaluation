@@ -2,13 +2,18 @@ import subprocess
 import ADQL_queries
 
 settings_file_name = '~/e-merlin/em_github/emerlin2caom/emerlin2caom2/settings_file.py'
-data_sets = ['~/e-merlin/data/CY16204_C_001_20231117', '~/e-merlin/data/CY14205_C_001_20220901']
-metadata_output = ['~/e-merlin/metadata/CY16204', '~/e-merlin/metadata/CY14205']
+data_set_file_base = '~/e-merlin/data/'
+metadata_base = '~/e-merlin/metadata/'
+data_set_names = ['CY16204_C_001_20231117', 'CY14205_C_001_20220901', 'CY10003_L_001_20210112',
+             'CY10206_C_003_20200716_CASA5.8_tar4_OH', 'CY11218_K_005_20210430', 'CY14205_L_006_20230116',
+             'CY9207_C_001_20190923', 'TS8004_C_001_20190801']
+metadata_names = ['CY16204', 'CY14205', 'CY10003', 'CY10206_OH', 'CY11218', 'CY14205_L', 'CY9207', 'TS8004']
 output_log_dir = '~/e-merlin/metadata/logs/'
 
+data_sets = [data_set_file_base + x for x in data_set_names]
+metadata_output = [metadata_base + x for x in metadata_names]
+
 ### For when on the server and auto-generating places for the data
-data_set_names = [x.split('/')[-1] for x in data_sets] # will break if there is a / at the end of the name
-metadata_base = '~/e-merlin/metadata'
 # metadata_output = [metadata_base + '/' + x for x in data_set_names]
 
 # for x in metadata_output:
@@ -33,20 +38,8 @@ def alter_settings_file(settings_file, data_loc, metadata_loc):
 for i, run in data_sets:
     alter_settings_file(settings_file_name, data_sets[i], metadata_output[i])
     with open(output_log_dir + data_set_names[i] + '_log.txt', 'w') as f:
-        subprocess.call(['python', '-m', 'caom25', 'run_script.py'], stdout=f) # add step to delete after upload?
+        subprocess.call(['run-emerlin'], stdout=f) # add step to delete after upload?
     timing, results = ADQL_queries.use_case_queries(url, use_case_nos)
     with open(output_log_dir + data_set_names[i] + '_timing.txt', w) as f:
         f.write('timing = {0}\nresults = {1}'.format(timing, results))
 
-
-
-
-
-
-
-
-
-res, tim = ADQL_queries.use_case_queries(url, use_case_nos)
-
-print(res)
-print(tim)
