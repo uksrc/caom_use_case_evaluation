@@ -29,9 +29,10 @@ def alter_settings_file(settings_file, data_loc, metadata_loc):
     for line in set_lines:
         if "storage_name = " in line:
             line = "storage_name = '{}'".format(data_loc)
-        if "xmldir = " in line:
+        elif "xmldir = " in line:
             line = "xmldir = '{}'".format(metadata_loc)
         new_settings_file.append(line)
+
     with open(settings_file, 'w') as f:
         f.write('\n'.join(new_settings_file))
         # f.write(new_settings_file.join('\n'))
@@ -41,6 +42,6 @@ for i, run in enumerate(data_sets):
     with open(output_log_dir + data_set_names[i] + '_log.txt', 'w') as f:
         subprocess.call(['run-emerlin'], stdout=f) # add step to delete after upload?
     timing, results = ADQL_queries.use_case_queries(url, use_case_nos)
-    with open(output_log_dir + data_set_names[i] + '_timing.txt', 'w') as f:
+    with open(output_log_dir + data_set_names[i] + '_timing.py', 'w') as f:
         f.write('timing = {0}\nresults = {1}'.format(timing, results))
 

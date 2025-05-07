@@ -12,12 +12,23 @@ def use_case_queries(url, use_case_nos):
     service = vo.dal.TAPService(url)
 
     # change to be specific to an upload name when there is more than one observation uploaded
-    resultset = service.search("SELECT * FROM Observation")
+    resultset = service.search("SELECT * FROM derivedobservation")
     derived_observation_id = resultset.to_table()['id'][0]
-    # x = 'ra'
-    x = 202
-    # y = 'dec'
-    y = 30
+
+    resultset = service.search("""
+    SELECT t.name, p.* FROM Target t 
+    JOIN Observation o ON o.target_id = t.id 
+    JOIN point p ON t.id = p.id
+    WHERE EXISTS (
+        SELECT 1
+        FROM Derivedobservation d 
+        WHERE d.id = '{}' AND d.members LIKE '%' || o.uri || '%'
+        )
+
+    ;""".format(derived_observation_id))
+
+    x = resultset['cval1'][0]
+    y = resultset['cval2'][0]
 
     query_dictionary = {
         "1": ["""
