@@ -18,27 +18,41 @@ metadata_output = [metadata_base + x for x in metadata_names]
 
 # for x in metadata_output:
 #   subprocess.call['mkdir', x]
-
-url = "http://localhost:8080/tap"
+url_obs = "https://kilburn.jb.man.ac.uk/archive/observations"
+url = "https://kilburn.jb.man.ac.uk/archive/tap"
 use_case_nos = [1,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
 
-def alter_settings_file(settings_file, data_loc, metadata_loc):
-    with open(settings_file, 'r') as f:
-        set_lines = f.readlines()
-    new_settings_file = []
-    for line in set_lines:
-        if "storage_name = " in line:
-            line = "storage_name = '{}'".format(data_loc)
-        elif "xmldir = " in line:
-            line = "xmldir = '{}'".format(metadata_loc)
-        new_settings_file.append(line)
-
+def alter_settings_file(emerlin_data, settings_file, xml_dir, base_url,
+                        upload=True, replace_old_data=True):
+    settings_file_text = """
+storage_name = '{0}'
+xmldir = '{1}'
+upload = {2}
+replace_old_data = {3}
+base_url = '{4}'
+""".format(emerlin_data, xml_dir, upload, replace_old_data, base_url)
     with open(settings_file, 'w') as f:
-        f.write('\n'.join(new_settings_file))
-        # f.write(new_settings_file.join('\n'))
+        f.write(settings_file_text)
+
+# def alter_settings_file(settings_file, data_loc, metadata_loc):
+#     with open(settings_file, 'r') as f:
+#         set_lines = f.readlines()
+#     new_settings_file = []
+#     for line in set_lines:
+#         if "storage_name = " in line:
+#             line = "storage_name = '{}'".format(data_loc)
+#         elif "xmldir = " in line:
+#             line = "xmldir = '{}'".format(metadata_loc)
+#         new_settings_file.append(line)
+#
+#     with open(settings_file, 'w') as f:
+#         f.write('\n'.join(new_settings_file))
+#         # f.write(new_settings_file.join('\n'))
+#     print(new_settings_file)
 
 for i, run in enumerate(data_sets):
-    alter_settings_file(settings_file_name, data_sets[i], metadata_output[i])
+    # alter_settings_file(settings_file_name, data_sets[i], metadata_output[i])
+    alter_settings_file(data_sets[i], settings_file_name, metadata_output[i], url_obs)
     with open(output_log_dir + data_set_names[i] + '_log.txt', 'w') as f:
         subprocess.call(['run-emerlin'], stdout=f) # add step to delete after upload?
     timing, results = ADQL_queries.use_case_queries(url, use_case_nos)
