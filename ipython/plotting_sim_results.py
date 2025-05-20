@@ -32,30 +32,51 @@ use_case_dict = {
     '12': ['resolution', 'weather', 'dateTime', 'elevation', 'pipeline_name', 'pipeline_version', 'beam', 'UV',
           'baseline', 'sensitivity'],
     '13': ['raw_data_id', 'pipeline_name', 'pipeline_version', 'telescope', 'correlator_setup',
-           'ancillary_target_role', 'ancillary_target_name', 'storage_available', 'compute_available', 'raw_data_id',
+           'ancillary_target_role', 'ancillary_target_name', 'storage_available', 'compute_available',
           'PI', 'target_name'],
     '14': ['raw_data_id', 'pipeline_version', 'pipeline_name', 'quality', 'target_name', ],
     '15': ['release_date', 'observation_id', 'PI', 'data_product_access', 'raw_data_access'],
     '16': ['observation_id', 'process_timing', 'release_date']
 }
 
+# use_case_dict_actual = {
+#     '1': ['telescope', 'baseline', 'RA', 'DEC', 'target_name', 'polarisation', 'dateTime', 'spectra', 'frequency',
+#          'PI', 'resolution'], # not included - beam, fov, no_visits
+#     '2': [], # no exisiting quality info so excluded
+#     '3': ['pipeline_version', 'raw_data_id'], # input parameters not in CAOM
+#     '4': ['project_code', 'PI', 'raw_data_id'], # PI returns nothing from emerlin
+#     '5': ['RA', 'DEC'], # what is fov in radio?
+#     '6': ['ancillary_target_name', 'ancillary_target_role'], # all inc
+#     '7': ['pipeline_name', 'pipeline_version', 'raw_data_access', 'raw_data_id', 'data_product_access',
+#          'data_product_location', 'release_date'], # no runtime_environment in caom
+#     '8': ['process_timing', 'data_size', 'raw_data_id'], # no compute_available, storage_available, memory_consumption, no_access, no_backups
+#     '9': ['process_timing', 'raw_data_id'], # no quality, input_parameters, memory_consumption
+#     '10': ['dateTime', 'RA', 'DEC', 'polarisation', 'frequency'], # no fov, quality
+#     '11': ['release_date', 'raw_data_access', 'dateTime', 'project_code', 'PI'], # PI iffy, no user_information
+#     '12': ['dateTime', 'pipeline_name', 'pipeline_version', 'baseline'], # no resolution, weather, ?elevation?, beam, UV, sensitivity
+#     '13': ['raw_data_id', 'pipeline_name', 'pipeline_version', 'raw_data_id'], # is a mess, come back to
+#     '14': ['raw_data_id', 'pipeline_version', 'pipeline_name'], # no quality
+#     '15': ['release_date', 'observation_id', 'PI', 'data_product_access', 'raw_data_access'], # complete
+#     '16': ['observation_id', 'process_timing', 'release_date'] # complete
+# }
+
 use_case_dict_actual = {
     '1': ['telescope', 'baseline', 'RA', 'DEC', 'target_name', 'polarisation', 'dateTime', 'spectra', 'frequency',
-         'PI', 'resolution'], # not included - beam, fov, no_visits
-    '2': [], # no exisiting quality info so excluded
+         'PI', 'resolution', 'beam', 'fov', 'no_visits'], # not included - beam, fov, no_visits
+    '2': ['sensitivity', 'telescope', 'UV'], # no exisiting quality info so excluded
     '3': ['pipeline_version', 'raw_data_id'], # input parameters not in CAOM
     '4': ['project_code', 'PI', 'raw_data_id'], # PI returns nothing from emerlin
-    '5': ['RA', 'DEC'], # what is fov in radio?
+    '5': ['RA', 'DEC', 'fov'], # what is fov in radio?
     '6': ['ancillary_target_name', 'ancillary_target_role'], # all inc
     '7': ['pipeline_name', 'pipeline_version', 'raw_data_access', 'raw_data_id', 'data_product_access',
          'data_product_location', 'release_date'], # no runtime_environment in caom
     '8': ['process_timing', 'data_size', 'raw_data_id'], # no compute_available, storage_available, memory_consumption, no_access, no_backups
     '9': ['process_timing', 'raw_data_id'], # no quality, input_parameters, memory_consumption
-    '10': ['dateTime', 'RA', 'DEC', 'polarisation', 'frequency'], # no fov, quality
+    '10': ['dateTime', 'RA', 'DEC', 'polarisation', 'frequency', 'fov'], # no fov, quality
     '11': ['release_date', 'raw_data_access', 'dateTime', 'project_code', 'PI'], # PI iffy, no user_information
-    '12': ['dateTime', 'pipeline_name', 'pipeline_version', 'baseline'], # no resolution, weather, ?elevation?, beam, UV, sensitivity
-    '13': ['raw_data_id', 'pipeline_name', 'pipeline_version', 'raw_data_id'], # is a mess, come back to
-    '14': ['raw_data_id', 'pipeline_version', 'pipeline_name'], # no quality
+    '12': ['resolution', 'dateTime', 'pipeline_name', 'pipeline_version', 'baseline', 'beam', 'UV', 'visibility', 'sensitivity', 'elevation'], # no resolution, weather, ?elevation?, beam, UV, sensitivity
+    '13': ['raw_data_id', 'pipeline_name', 'pipeline_version', 'ancillary_target_role', 'ancillary_target_name', 'PI', 'target_name', 'telescope'], # is a mess, come back to
+    '14': ['raw_data_id', 'pipeline_version', 'pipeline_name', 'target_name'], # no quality
     '15': ['release_date', 'observation_id', 'PI', 'data_product_access', 'raw_data_access'], # complete
     '16': ['observation_id', 'process_timing', 'release_date'] # complete
 }
